@@ -6,7 +6,8 @@ const sequelize = new Sequelize('chatting_db', 'postgres', 'admin', {
 });
 
 const db = {
-  User: sequelize.import('./user')
+  User: sequelize.import('./user'),
+  Message: sequelize.import('./message')
 };
 
 // Object.keys(db).forEach((modelName) => {
