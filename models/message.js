@@ -38,15 +38,15 @@ export default (sequelize, DataTypes) => {
   );
 
   Message.associate = models => {
-    Message.belongsTo(models.user, {
-      as: 'sender',
-      foreignKey: 'senderId',
-      onDelete: 'CASCADE'
-    });
-    Message.belongsTo(models.user, {
-      as: 'receiver',
-      foreignKey: 'receiverId'
-    });
+    // Message.belongsTo(models.user, {
+    //   as: 'sender',
+    //   foreignKey: 'senderId',
+    //   onDelete: 'CASCADE'
+    // });
+    // Message.belongsTo(models.user, {
+    //   as: 'receiver',
+    //   foreignKey: 'receiverId'
+    // });
   };
 
   return Message;

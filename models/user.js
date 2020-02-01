@@ -8,10 +8,9 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true
       },
-      username: {
+      sex: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: false
       },
       names: DataTypes.STRING,
       email: {
@@ -37,8 +36,8 @@ export default (sequelize, DataTypes) => {
     {}
   );
   User.associate = models => {
-    User.hasMany(models.message, { as: 'sender', foreignKey: 'senderId' });
-    User.hasMany(models.message, { as: 'receiver', foreignKey: 'receiverId' });
+    // User.hasMany(models.message, { as: 'sender', foreignKey: 'senderId' });
+    // User.hasMany(models.message, { as: 'receiver', foreignKey: 'receiverId' });
   };
   return User;
 };

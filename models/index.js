@@ -1,22 +1,45 @@
+import fs from 'fs';
 import Sequelize from 'sequelize';
+import path from 'path';
+import dotenv from 'dotenv';
+import configs from '../config'; // Importing configuration file
 
-const sequelize = new Sequelize('chatting_db', 'postgres', 'admin', {
-  host: 'localhost',
-  dialect: 'postgres'
+dotenv.config(); // Enabling the use of the env variables
+
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development'; // We use either NODE_ENV/ 'development'
+const config = configs[env]; // Config variable takes in our new configuration
+const db = {};
+
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
+
+fs.readdirSync(__dirname)
+  .filter(
+    file =>
+      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
+  )
+  .forEach(file => {
+    const model = sequelize.import(path.join(__dirname, file));
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
 });
 
-const db = {
-  User: sequelize.import('./user'),
-  Message: sequelize.import('./message')
-};
-
-// Object.keys(db).forEach((modelName) => {
-//   if ('associate' in db[modelName]) {
-//     db[modelName].associate(db);
-//   }
-// });
-
 db.sequelize = sequelize;
-// db.Sequelize = Sequelize;
+db.Sequelize = Sequelize;
 
-export default db;
+module.exports = db;
