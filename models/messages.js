@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
-  const Message = sequelize.define(
-    'Message',
+  const messages = sequelize.define(
+    'messages',
     {
       id: {
         type: DataTypes.UUID,
@@ -16,13 +16,13 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
-        references: { model: 'Users', key: 'id' }
+        references: { model: 'users', key: 'id' }
       },
       receiverId: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
-        references: { model: 'Users', key: 'id' }
+        references: { model: 'users', key: 'id' }
       },
       messageContent: {
         type: DataTypes.STRING,
@@ -37,17 +37,17 @@ export default (sequelize, DataTypes) => {
     {}
   );
 
-  Message.associate = models => {
-    Message.belongsTo(models.user, {
+  messages.associate = models => {
+    messages.belongsTo(models.users, {
       as: 'sender',
       foreignKey: 'senderId',
       onDelete: 'CASCADE'
     });
-    Message.belongsTo(models.user, {
+    messages.belongsTo(models.users, {
       as: 'receiver',
       foreignKey: 'receiverId'
     });
   };
 
-  return Message;
+  return messages;
 };

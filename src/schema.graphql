@@ -1,0 +1,48 @@
+# export const typeDefs = `
+type User {
+  id: String!
+  sex: String!
+  names: String!
+  email: String!
+  password: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type Message {
+  id: String!
+  chatId: String!
+  senderId: String!
+  receiverId: String!
+  messageContent: String!
+  isRead: Boolean!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Query {
+  allUsers: [User!]!
+  getUser(email: String!): User
+  getSentMessage(senderId: String!): [Message!]!
+  getReceivedMessage(receiverId: String!): [Message!]!
+  getMyMessages(receiverId: String!, senderId: String!): [Message!]!
+}
+
+type Mutation {
+  signup(
+    sex: String!
+    names: String!
+    email: String!
+    password: String!
+  ): AuthPayload
+  login(email: String!, password: String!): String!
+  updateUser(id: String!, newEmail: String!): [String!]!
+  deleteUser(id: String!): String!
+  createMessage(messageContent: String!, receiverId: String!): Message
+}
+# `;
